@@ -684,7 +684,7 @@ class RovioNode{
         for(int camID=0;camID<mtState::nCam_;camID++){
           tf::StampedTransform tf_transform_CM;
           tf_transform_CM.frame_id_ = imu_frame_;
-          tf_transform_CM.child_frame_id_ = camera_frame_ + std::to_string(camID);
+          tf_transform_CM.child_frame_id_ = camera_frame_ + ((mtState::nCam_ > 1) ? std::to_string(camID) : std::string());
           tf_transform_CM.stamp_ = ros::Time(mpFilter_->safe_.t_);
           tf_transform_CM.setOrigin(tf::Vector3(state.MrMC(camID)(0),state.MrMC(camID)(1),state.MrMC(camID)(2)));
           tf_transform_CM.setRotation(tf::Quaternion(state.qCM(camID).x(),state.qCM(camID).y(),state.qCM(camID).z(),-state.qCM(camID).w()));
