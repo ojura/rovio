@@ -112,13 +112,19 @@ int main(int argc, char** argv){
   rovioNode.makeTest();
 
 #ifdef MAKE_SCENE
-  // Scene
-  std::string mVSFileName = rootdir + "/shaders/shader.vs";
-  std::string mFSFileName = rootdir + "/shaders/shader.fs";
-  mRovioScene.initScene(argc,argv,mVSFileName,mFSFileName,mpFilter);
-  mRovioScene.setIdleFunction(idleFunc);
-  mRovioScene.addKeyboardCB('r',[&rovioNode]() mutable {rovioNode.requestReset();});
-  glutMainLoop();
+  bool enableScene = nh_private.param("enable_scene", true);
+  if(enableScene) {
+    // Scene
+    std::string mVSFileName = rootdir + "/shaders/shader.vs";
+    std::string mFSFileName = rootdir + "/shaders/shader.fs";
+    mRovioScene.initScene(argc,argv,mVSFileName,mFSFileName,mpFilter);
+    mRovioScene.setIdleFunction(idleFunc);
+    mRovioScene.addKeyboardCB('r',[&rovioNode]() mutable {rovioNode.requestReset();});
+    glutMainLoop();
+  }
+  else {
+    ros::spin();
+  }
 #else
   ros::spin();
 #endif
